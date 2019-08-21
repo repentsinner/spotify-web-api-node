@@ -107,6 +107,33 @@ SpotifyWebApi.prototype = {
   },
 
   /**
+   * Look up a podcast episode.
+   * @param {string} episodeId The episode's ID.
+   * @param {Object} [options] The possible options.
+   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
+   * @example getEpisode('3Qm86XLflmIXVm1wcwkgDK').then(...)
+   * @returns {Promise|undefined} A promise that if successful, returns an object containing information
+   *          about the episode. Not returned if a callback is given.
+   */
+  getEpisode: function(episodeId, options, callback) {
+    // In case someone is using a version where options parameter did not exist.
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+
+    return WebApiRequest.builder(this.getAccessToken())
+      .withPath('/v1/episodes/' + episodeId)
+      .withQueryParameters(actualOptions)
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  /**
    * Look up a track.
    * @param {string} trackId The track's ID.
    * @param {Object} [options] The possible options, currently only market.
@@ -161,6 +188,33 @@ SpotifyWebApi.prototype = {
         },
         actualOptions
       )
+      .build()
+      .execute(HttpManager.get, actualCallback);
+  },
+
+  /**
+   * Look up a podcast show.
+   * @param {string} albumId The show's ID.
+   * @param {Object} [options] The possible options.
+   * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
+   * @example getShow('0sNOF9WDwhWunNAHPD3Baj').then(...)
+   * @returns {Promise|undefined} A promise that if successful, returns an object containing information
+   *          about the show. Not returned if a callback is given.
+   */
+  getShow: function(showId, options, callback) {
+    // In case someone is using a version where options parameter did not exist.
+    var actualCallback, actualOptions;
+    if (typeof options === 'function' && !callback) {
+      actualCallback = options;
+      actualOptions = {};
+    } else {
+      actualCallback = callback;
+      actualOptions = options;
+    }
+
+    return WebApiRequest.builder(this.getAccessToken())
+      .withPath('/v1/shows/' + showId)
+      .withQueryParameters(actualOptions)
       .build()
       .execute(HttpManager.get, actualCallback);
   },
