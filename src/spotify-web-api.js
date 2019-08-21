@@ -111,7 +111,7 @@ SpotifyWebApi.prototype = {
    * @param {string} episodeId The episode's ID.
    * @param {Object} [options] The possible options.
    * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @example getEpisode('3Qm86XLflmIXVm1wcwkgDK').then(...)
+   * @example getEpisode('2Yaa5tJ1nJuQAa22WrXWLy').then(...)
    * @returns {Promise|undefined} A promise that if successful, returns an object containing information
    *          about the episode. Not returned if a callback is given.
    */
@@ -197,7 +197,7 @@ SpotifyWebApi.prototype = {
    * @param {string} albumId The show's ID.
    * @param {Object} [options] The possible options.
    * @param {requestCallback} [callback] Optional callback method to be called instead of the promise.
-   * @example getShow('0sNOF9WDwhWunNAHPD3Baj').then(...)
+   * @example getShow('5rgumWEx4FsqIY8e1wJNAk').then(...)
    * @returns {Promise|undefined} A promise that if successful, returns an object containing information
    *          about the show. Not returned if a callback is given.
    */

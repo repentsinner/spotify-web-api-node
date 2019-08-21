@@ -36,6 +36,39 @@ describe('Spotify Web API', () => {
     expect(api.getCredentials().refreshToken).toBe(credentials.refreshToken);
   });
 
+  test('should retrieve episode metadata', done => {
+    sinon.stub(HttpManager, '_makeRequest', function(
+      method,
+      options,
+      uri,
+      callback
+    ) {
+      expect(method).toBe(superagent.get);
+      expect(uri).toBe(
+        'https://api.spotify.com/v1/episodes/2Yaa5tJ1nJuQAa22WrXWLy'
+      );
+      expect(options.data).toBeFalsy();
+      callback(null, {
+        body: { uri: 'spotify:episode:2Yaa5tJ1nJuQAa22WrXWLy' },
+        headers: { 'cache-control': 'public, max-age=7200' },
+        statusCode: 200
+      });
+    });
+
+    var api = new SpotifyWebApi();
+    api.getEpisode('2Yaa5tJ1nJuQAa22WrXWLy').then(
+      function(data) {
+        expect(data.body.uri).toBe('spotify:episode:2Yaa5tJ1nJuQAa22WrXWLy');
+        expect(data.statusCode).toBe(200);
+        expect(data.headers['cache-control']).toBe('public, max-age=7200');
+        done();
+      },
+      function(err) {
+        done(err);
+      }
+    );
+  });
+
   test('should retrieve track metadata', done => {
     sinon.stub(HttpManager, '_makeRequest', function(
       method,
@@ -261,6 +294,37 @@ describe('Spotify Web API', () => {
       function(err, data) {
         expect(err).toBeFalsy();
         done();
+      }
+    );
+  });
+
+  test('should retrieve metadata for a podcast show', done => {
+    sinon.stub(HttpManager, '_makeRequest', function(
+      method,
+      options,
+      uri,
+      callback
+    ) {
+      expect(method).toBe(superagent.get);
+      expect(uri).toBe(
+        'https://api.spotify.com/v1/shows/5rgumWEx4FsqIY8e1wJNAk'
+      );
+      expect(options.data).toBeFalsy();
+      callback(null, {
+        body: { uri: 'spotify:show:5rgumWEx4FsqIY8e1wJNAk' },
+        statusCode: 200
+      });
+    });
+
+    var api = new SpotifyWebApi();
+    api.getShow('5rgumWEx4FsqIY8e1wJNAk').then(
+      function(data) {
+        expect('spotify:show:5rgumWEx4FsqIY8e1wJNAk').toBe(data.body.uri);
+        expect(data.statusCode).toBe(200);
+        done();
+      },
+      function(err) {
+        done(err);
       }
     );
   });
